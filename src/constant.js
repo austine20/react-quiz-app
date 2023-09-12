@@ -15,7 +15,7 @@ export const quiz = {
         "<script name='main.js'",
       ],
       type: "MCQ",
-      correctAnswer: "<script src='xxx.js'",
+      correctAnswer: "<script src='main.js'",
     },
     {
       question: "The external JavaScript file must contain the <script> tag.",

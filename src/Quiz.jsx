@@ -1,15 +1,17 @@
 import { useState } from "react";
 import "./quiz.css";
 
+const initialResultState = {
+  score: 0,
+  rightAnswer: 0,
+  wrongAnswer: 0,
+};
+
 const Quiz = ({ quizQuestion }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answerIndex, setAnswerIndex] = useState(null);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
-  const [result, setResult] = useState({
-    score: 0,
-    rightAnswer: 0,
-    wrongAnswer: 0,
-  });
+  const [result, setResult] = useState(initialResultState);
   const [displayResult, setDisplayResult] = useState(false);
 
   const { question, choices, correctAnswer } = quizQuestion[currentQuestion];
@@ -47,6 +49,12 @@ const Quiz = ({ quizQuestion }) => {
       setCurrentQuestion(0);
       setDisplayResult(true);
     }
+  };
+
+  const handleTryAgain = () => {
+    setResult(initialResultState);
+    setDisplayResult(false);
+    setCurrentQuestion(0);
   };
 
   return (
@@ -99,7 +107,7 @@ const Quiz = ({ quizQuestion }) => {
             <p className="bodythree">
               Correct Answers: <span>{result.rightAnswer}</span>
             </p>
-            <p className="bodyfour">
+            <p className={result.wrongAnswer > 0 ? "bodyfour" : ""}>
               Wrong Answers: <span>{result.wrongAnswer}</span>
             </p>
           </div>
@@ -108,14 +116,7 @@ const Quiz = ({ quizQuestion }) => {
             {result.rightAnswer === quizQuestion.length ? (
               <span className="finish">Congratulations!!! ✨✨✨</span>
             ) : (
-              <button
-                className="btn"
-                onClick={() => {
-                  setDisplayResult(false);
-                  setCurrentQuestion(0);
-                }}
-                type="button"
-              >
+              <button className="btn" onClick={handleTryAgain} type="button">
                 Try Again
               </button>
             )}
